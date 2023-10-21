@@ -1,0 +1,74 @@
+.title {
+  margin-bottom: 2rem;
+}
+
+.task {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 30px;
+  justify-content: space-between;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.taskCheckBox {
+  flex: 0 0 10%;
+  max-width: 10%;
+  height: 2rem;
+  margin-top: 0.5rem;
+  border-radius: 20px;
+}
+
+.taskName {
+  flex: 0 0 70%;
+  max-width: 70%;
+  padding: 8px 10px;
+  color: #383f50;
+  border: none;
+  &.taskNameDone {
+    color: #b2b7bb;
+    text-decoration: line-through;
+  }
+}
+
+.taskActions {
+  flex: 0 0 5%;
+  max-width: 20%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskBtn {
+  flex: 0 0 3.5rem;
+  max-width: 5rem;
+  font-size: 25px;
+  background-color: transparent;
+  border: none;
+  
+}
+
+.taskBtn:hover {
+  color: antiquewhite;
+}
+
+.taskFooter {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  margin-left: 3px;
+}
+
+button:hover {
+  opacity: 0.6;
+}
+
+.active {
+  border: 3px solid antiquewhite;
+}
