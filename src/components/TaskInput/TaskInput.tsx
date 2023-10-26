@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Todo } from '../../@types/todo.type'
-import { addTodo, completedAllTodo, updateTodo } from '../list.reducer'
+import { addTodo, completedAllTodo, updateTodo } from '../../redux/list.reducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { RootState } from '../../redux/store'
 import styles from '../TaskInput/taskInput.module.scss'
 
 const initialState: Todo = {

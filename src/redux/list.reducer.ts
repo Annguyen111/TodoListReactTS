@@ -1,4 +1,4 @@
-import { Todo } from './../@types/todo.type'
+import { Todo } from '../@types/todo.type'
 import { createAction, createReducer, nanoid } from '@reduxjs/toolkit'
 import { initialTodoList } from '../constants/list'
 
@@ -65,10 +65,10 @@ const listReducer = createReducer(initialState, (builder) => {
       state.todoList = state.todoList.filter((todo) => !todo.done)
     })
     .addCase(completedAllTodo, (state) => {
-      state.todoList = state.todoList.map((todo) => ({
-        ...todo,
-        done: true
-      }))
+      const allDone = state.todoList.every((todo) => todo.done)
+      state.todoList.forEach((todo) => {
+        todo.done = !allDone
+      })
     })
     .addMatcher(
       (action) => action.type.includes('cancel'),

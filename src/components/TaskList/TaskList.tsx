@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import styles from './taskList.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store'
-import { deleteAllTodoDone, deleteTodo, doneTodo, updateTodo } from '../list.reducer'
+import { RootState } from '../../redux/store'
+import { deleteAllTodoDone, deleteTodo, doneTodo, updateTodo } from '../../redux/list.reducer'
 
 export default function TaskList() {
   const todoList = useSelector((state: RootState) => state.list.todoList)
