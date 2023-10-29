@@ -1,7 +1,6 @@
 import styles from './todoList.module.scss'
-import TaskList from '../TaskList/TaskList'
-import TaskInput from '../TaskInput/TaskInput'
-import { Todo } from '../../@types/todo.type'
+import TaskList from '../TaskList'
+import TaskInput from '../TaskInput'
 
 export default function TodoList() {
   return (

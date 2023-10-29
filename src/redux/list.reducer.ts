@@ -4,12 +4,10 @@ import { initialTodoList } from '../constants/list'
 
 interface ListStage {
   todoList: Todo[]
-  editingTodo: Todo | null
 }
 
 const initialState: ListStage = {
-  todoList: initialTodoList,
-  editingTodo: null
+  todoList: initialTodoList
 }
 
 export const addTodo = createAction('todo/addTodo', function (todo: Omit<Todo, 'id'>) {
@@ -39,7 +37,7 @@ const listReducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateTodo, (state, action) => {
-      state.todoList.map((todo) => {
+      state.todoList = state.todoList.map((todo) => {
         if (todo.id === action.payload.id) {
           return {
             ...todo,
@@ -49,6 +47,7 @@ const listReducer = createReducer(initialState, (builder) => {
         return todo
       })
     })
+
     .addCase(doneTodo, (state, action) => {
       const todoId = action.payload
       state.todoList = state.todoList.map((todo) => {
