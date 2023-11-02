@@ -17,10 +17,12 @@ export default function TaskItem(props: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false)
 
   const onChangeFocus = () => {
-    setIsEditing(true)
-    if (inputRef.current) {
-      inputRef.current.disabled = false
-      inputRef.current.focus()
+    if (!todo.done) {
+      setIsEditing(true)
+      if (inputRef.current) {
+        inputRef.current.disabled = false
+        inputRef.current.focus()
+      }
     }
   }
 

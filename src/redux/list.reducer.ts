@@ -1,5 +1,5 @@
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { Todo } from '../@types/todo.type'
-import { createAction, createReducer, nanoid } from '@reduxjs/toolkit'
 import { initialTodoList } from '../constants/list'
 
 interface ListStage {
@@ -10,33 +10,29 @@ const initialState: ListStage = {
   todoList: initialTodoList
 }
 
-export const addTodo = createAction('todo/addTodo', function (todo: Omit<Todo, 'id'>) {
-  return {
-    payload: {
-      ...todo,
-      id: nanoid()
-    }
-  }
-})
-export const deleteTodo = createAction<string>('todo/deleteTodo')
-export const updateTodo = createAction<Todo>('todo/updateTodo')
-export const doneTodo = createAction<string>('todo/doneTodo')
-export const deleteAllTodoDone = createAction('todo/deleteAllTodoDone')
-export const completedAllTodo = createAction('todo/completedAllTodo')
-
-const listReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(addTodo, (state, action) => {
-      state.todoList.push(action.payload)
-    })
-    .addCase(deleteTodo, (state, action) => {
+const listSlice = createSlice({
+  name: 'todo',
+  initialState,
+  reducers: {
+    addTodo: {
+      reducer: (state, action: PayloadAction<Todo>) => {
+        state.todoList.push(action.payload)
+      },
+      prepare: (todo: Omit<Todo, 'id'>) => ({
+        payload: {
+          ...todo,
+          id: nanoid()
+        }
+      })
+    },
+    deleteTodo: (state, action: PayloadAction<string>) => {
       const todoId = action.payload
       const foundTodoIndex = state.todoList.findIndex((todo) => todo.id === todoId)
       if (foundTodoIndex !== -1) {
         state.todoList.splice(foundTodoIndex, 1)
       }
-    })
-    .addCase(updateTodo, (state, action) => {
+    },
+    updateTodo: (state, action: PayloadAction<Todo>) => {
       state.todoList = state.todoList.map((todo) => {
         if (todo.id === action.payload.id) {
           return {
@@ -46,9 +42,8 @@ const listReducer = createReducer(initialState, (builder) => {
         }
         return todo
       })
-    })
-
-    .addCase(doneTodo, (state, action) => {
+    },
+    doneTodo: (state, action: PayloadAction<string>) => {
       const todoId = action.payload
       state.todoList = state.todoList.map((todo) => {
         if (todo.id === todoId) {
@@ -59,22 +54,18 @@ const listReducer = createReducer(initialState, (builder) => {
         }
         return todo
       })
-    })
-    .addCase(deleteAllTodoDone, (state, action) => {
+    },
+    deleteAllTodoDone: (state) => {
       state.todoList = state.todoList.filter((todo) => !todo.done)
-    })
-    .addCase(completedAllTodo, (state) => {
+    },
+    completedAllTodo: (state) => {
       const allDone = state.todoList.every((todo) => todo.done)
       state.todoList.forEach((todo) => {
         todo.done = !allDone
       })
-    })
-    .addMatcher(
-      (action) => action.type.includes('cancel'),
-      (state, action) => {
-        console.log(state)
-      }
-    )
+    }
+  }
 })
 
-export default listReducer
+export const { addTodo, deleteTodo, updateTodo, doneTodo, deleteAllTodoDone, completedAllTodo } = listSlice.actions
+export default listSlice.reducer

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Todo } from '../../@types/todo.type'
-import { addTodo, completedAllTodo, updateTodo } from '../../redux/list.reducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux/store'
+import { addTodo, completedAllTodo } from '../../redux/list.reducer'
+import { useDispatch } from 'react-redux'
 import styles from '../TaskInput/taskInput.module.scss'
 
 const initialState: Todo = {
@@ -38,11 +37,8 @@ export default function TaskInput() {
           type='text'
           placeholder='Enter task ....'
           value={formData.name}
-          onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value }))}
+          onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value.trim() }))}
         />
-        {/* <button hidden type='submit'>
-          {currentTodo ? '✔️' : '➕'}
-        </button> */}
       </form>
     </div>
   )
