@@ -13,6 +13,8 @@
   padding: 8px 10px;
   color: #383f50;
   border: none;
+  -webkit-user-select: none;
+  user-select: none;
   &.taskNameDone {
     color: #b2b7bb;
     text-decoration: line-through;

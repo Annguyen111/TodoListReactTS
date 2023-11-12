@@ -21,6 +21,7 @@ const listSlice = createSlice({
       prepare: (todo: Omit<Todo, 'id'>) => ({
         payload: {
           ...todo,
+          name: todo.name.trim(),
           id: nanoid()
         }
       })

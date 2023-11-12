@@ -37,7 +37,12 @@ export default function TaskInput() {
           type='text'
           placeholder='Enter task ....'
           value={formData.name}
-          onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value.trim() }))}
+          onChange={(event) =>
+            setFormData((prev) => ({
+              ...prev,
+              name: event.target.value[0] === ' ' ? prev.name : event.target.value
+            }))
+          }
         />
       </form>
     </div>

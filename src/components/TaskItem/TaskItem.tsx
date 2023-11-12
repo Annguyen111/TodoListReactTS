@@ -12,17 +12,16 @@ interface TaskItemProps {
 
 export default function TaskItem(props: TaskItemProps) {
   const { todo, handleDelete, onChangeCheckbox } = props
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
   const [isEditing, setIsEditing] = useState(false)
+  const [editedContent, setEditedContent] = useState(todo.name)
 
   const onChangeFocus = () => {
-    if (!todo.done) {
-      setIsEditing(true)
-      if (inputRef.current) {
-        inputRef.current.disabled = false
-        inputRef.current.focus()
-      }
+    setIsEditing(true)
+    if (inputRef.current) {
+      inputRef.current.disabled = false
+      inputRef.current.focus()
     }
   }
 
@@ -30,7 +29,7 @@ export default function TaskItem(props: TaskItemProps) {
     dispatch(updateTodo({ id, name: value, done: todo.done }))
   }
 
-  const onUpdate = (id: string, e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const onUpdate = (id: string, e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && inputRef.current) {
       handleUpdate(id, inputRef.current.value)
       setIsEditing(false)
@@ -49,15 +48,18 @@ export default function TaskItem(props: TaskItemProps) {
     <>
       <input type='checkbox' className={styles.taskCheckBox} checked={todo.done} onChange={onChangeCheckbox(todo.id)} />
       {isEditing ? (
-        <textarea
+        <input
+          type='text'
           ref={inputRef}
-          defaultValue={todo.name}
+          value={editedContent}
+          onChange={(e) => setEditedContent(e.target.value)}
           onKeyUp={(e) => onUpdate(todo.id, e)}
           onBlur={() => onBlur(todo.id)}
-          className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`}
+          disabled={!isEditing}
+          className={`${styles.taskName}`}
         />
       ) : (
-        <div className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`} onDoubleClick={onChangeFocus}>
+        <div className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`} onClick={onChangeFocus}>
           {todo.name}
         </div>
       )}
