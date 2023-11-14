@@ -4,35 +4,41 @@
 
 .task {
   display: flex;
-  align-items: flex-start;
-  margin-top: 30px;
   justify-content: space-between;
   align-items: center;
-  &:not(:last-child) {
-    margin-bottom: 1rem;
-  }
+  position: relative;
   cursor: pointer;
 }
+
+
 
 .taskFooter {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
+  color: #777;
+  align-items: center;
 }
 
+.taskClearCompletedBtn:hover {
+  text-decoration: underline;
+}
 
+.taskClearCompletedBtn {
+  color: #777;
+}
 
-button {
+.taskItemSortBtn button {
   background-color: transparent;
   border: none;
   margin-left: 3px;
   cursor: pointer;
+  border-radius: 3px;
+  margin: 3px;
+  padding: 3px 7px;
+  color: #777;
 }
 
-button:hover {
-  opacity: 0.6;
-}
-
-.active {
-  border: 3px solid antiquewhite;
+button.active {
+  border: 1px solid rgba(175,47,47,.2);
 }

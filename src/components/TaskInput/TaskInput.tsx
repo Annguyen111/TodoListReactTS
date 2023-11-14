@@ -27,23 +27,30 @@ export default function TaskInput() {
     dispatch(completedAllTodo())
   }
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value
+
+    if (inputValue.trim() === '') {
+      setFormData((prev) => ({
+        ...prev,
+        name: ''
+      }))
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        name: inputValue
+      }))
+    }
+  }
+
   return (
     <div className={styles.container}>
-      <button onClick={completedAll} className={styles.form_btn}>
-        ✔️
-      </button>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          type='text'
-          placeholder='Enter task ....'
-          value={formData.name}
-          onChange={(event) =>
-            setFormData((prev) => ({
-              ...prev,
-              name: event.target.value[0] === ' ' ? prev.name : event.target.value
-            }))
-          }
-        />
+        <label className={styles.taskCheckboxWrap}>
+          <input type='checkbox' onClick={completedAll} />
+          <span className={styles.taskCheckboxMark}></span>
+        </label>
+        <input type='text' placeholder='Add task in here ....' value={formData.name} onChange={handleInputChange} />
       </form>
     </div>
   )

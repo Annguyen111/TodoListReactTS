@@ -45,8 +45,13 @@ export default function TaskItem(props: TaskItemProps) {
   }
 
   return (
-    <>
-      <input type='checkbox' className={styles.taskCheckBox} checked={todo.done} onChange={onChangeCheckbox(todo.id)} />
+    <div className={`${!isEditing ? styles.taskItem : styles.taskItemEditing}`}>
+      {!isEditing && (
+        <label className={styles.taskCheckboxWrap}>
+          <input type='checkbox' checked={todo.done} onChange={onChangeCheckbox(todo.id)} />
+          <span className={styles.taskCheckboxMark}></span>
+        </label>
+      )}
       {isEditing ? (
         <input
           type='text'
@@ -56,18 +61,20 @@ export default function TaskItem(props: TaskItemProps) {
           onKeyUp={(e) => onUpdate(todo.id, e)}
           onBlur={() => onBlur(todo.id)}
           disabled={!isEditing}
-          className={`${styles.taskName}`}
+          className={`${styles.taskName} ${styles.taskNameEditing}`}
         />
       ) : (
         <div className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`} onClick={onChangeFocus}>
           {todo.name}
         </div>
       )}
-      <div className={styles.taskActions}>
-        <button className={styles.taskBtn} onClick={() => handleDelete(todo.id)}>
-          🗑️
-        </button>
-      </div>
-    </>
+      {!isEditing && (
+        <div className={styles.taskActions}>
+          <button className={styles.taskBtn} onClick={() => handleDelete(todo.id)}>
+            ×
+          </button>
+        </div>
+      )}
+    </div>
   )
 }

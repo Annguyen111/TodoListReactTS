@@ -39,9 +39,9 @@ export default function TaskList() {
       </div>
       <div className={styles.taskFooter}>
         <span>
-          {todoCount} Item{todoCount !== 1 ? 's' : ''} left
+          {todoCount} Item{todoCount > 0 ? 's' : ''} left
         </span>
-        <div>
+        <div className={styles.taskItemSortBtn}>
           <button onClick={() => setSort('all')} className={sort === 'all' ? styles.active : ''}>
             All
           </button>
@@ -52,7 +52,7 @@ export default function TaskList() {
             Completed
           </button>
         </div>
-        <button onClick={handleDeleteAllTodoDone}>Clear completed</button>
+        <button className={styles.taskClearCompletedBtn} onClick={handleDeleteAllTodoDone}>Clear completed</button>
       </div>
     </div>
   )
