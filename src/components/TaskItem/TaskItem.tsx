@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import styles from './taskItem.module.scss'
 import { Todo } from '../../@types/todo.type'
 import { useDispatch } from 'react-redux'
@@ -16,6 +16,18 @@ export default function TaskItem(props: TaskItemProps) {
   const dispatch = useDispatch()
   const [isEditing, setIsEditing] = useState(false)
   const [editedContent, setEditedContent] = useState(todo.name)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        setIsEditing(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
 
   const onChangeFocus = () => {
     setIsEditing(true)
@@ -45,7 +57,7 @@ export default function TaskItem(props: TaskItemProps) {
   }
 
   return (
-    <div className={`${!isEditing ? styles.taskItem : styles.taskItemEditing}`}>
+    <div className={`${!isEditing ? styles.taskItem : styles.taskItemEditing} `}>
       {!isEditing && (
         <label className={styles.taskCheckboxWrap}>
           <input type='checkbox' checked={todo.done} onChange={onChangeCheckbox(todo.id)} />
@@ -54,6 +66,7 @@ export default function TaskItem(props: TaskItemProps) {
       )}
       {isEditing ? (
         <input
+          className={`${styles.taskName} ${styles.taskNameEditing}`}
           type='text'
           ref={inputRef}
           value={editedContent}
@@ -61,7 +74,6 @@ export default function TaskItem(props: TaskItemProps) {
           onKeyUp={(e) => onUpdate(todo.id, e)}
           onBlur={() => onBlur(todo.id)}
           disabled={!isEditing}
-          className={`${styles.taskName} ${styles.taskNameEditing}`}
         />
       ) : (
         <div className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`} onClick={onChangeFocus}>
