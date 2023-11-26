@@ -1,0 +1,117 @@
+
+
+.taskName {
+  flex: 0 0 90%;
+  max-width: 100%;
+  padding: 15px;
+  color: #383f50;
+  border: none;
+  &.taskNameDone {
+    color: #b2b7bb;
+    text-decoration: line-through;
+  }
+  &.active {
+    display: none;
+  }
+}
+
+.taskNameInput {
+  display: none;
+  max-width: 100%;
+  padding: 15px;
+  color: #383f50;
+  border: none;
+}
+
+.taskNameEditing {
+  display: block;
+  outline-width: 1px;
+  outline-style: inset;
+  box-shadow: 5px 5px 8px rgba(192, 121, 121, 0.8);
+  width: 100%;
+}
+
+.taskActions {
+  max-width: 20%;
+  justify-content: space-between;
+  position: absolute;
+  right: 10px;
+}
+
+.taskBtn {
+  max-width: 5rem;
+  font-size: 25px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: none;
+  color: rgba(175, 47, 47, 0.8);
+}
+
+.taskItem {
+  width: 100%;
+  border-bottom: 1px solid #ededed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.taskItemEditing {
+  width: 100%;
+  border-bottom: 1px solid #ededed;
+}
+
+.taskItem:hover .taskBtn {
+  display: block;
+}
+
+.taskCheckboxWrap {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.taskCheckboxWrap input {
+  display: none;
+}
+
+.taskCheckboxWrap input:checked~.taskCheckboxMark {
+   border: 1px solid #bebebe;
+}
+
+.taskCheckboxWrap input:checked~.taskCheckboxMark::after {
+  border: solid #5dc2af;
+  border-width: 0 2px 2px 0;
+  height: 15px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+  width: 5px;
+  display: block;
+}
+
+.taskCheckboxMark {
+  border-radius: 50%;
+  height: 30px;
+  left: 10px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 30px;
+  border: 1px solid hsla(0,0%,80%,.5);
+}
+
+.taskCheckboxWrap .taskCheckboxMark:after {
+  border: solid #e6e6e6;
+  border-width: 0 3px 3px 0;
+  content: "";
+  height: 13px;
+  left: 11px;
+  position: absolute;
+  top: 4px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 10px;
+  display: none;
+}

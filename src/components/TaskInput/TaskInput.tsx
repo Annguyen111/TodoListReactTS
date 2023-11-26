@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Todo } from '../../@types/todo.type'
-import { addTodo, completedAllTodo, updateTodo } from '../list.reducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { addTodo, completedAllTodo } from '../../redux/list.reducer'
+import { useDispatch } from 'react-redux'
 import styles from '../TaskInput/taskInput.module.scss'
 
 const initialState: Todo = {
@@ -13,43 +12,45 @@ const initialState: Todo = {
 
 export default function TaskInput() {
   const [formData, setFormData] = useState<Todo>(initialState)
-  const editingPost = useSelector((state: RootState) => state.list.editingTodo)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    setFormData(editingPost || initialState)
-  }, [editingPost])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (editingPost) {
-      dispatch(updateTodo(formData))
-    } else {
+    if (formData.name !== '') {
       const formDataWithId = { ...formData }
       dispatch(addTodo(formDataWithId))
+      setFormData(initialState)
     }
-    setFormData(initialState)
   }
 
   const completedAll = () => {
     dispatch(completedAllTodo())
   }
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value
+
+    if (inputValue.trim() === '') {
+      setFormData((prev) => ({
+        ...prev,
+        name: ''
+      }))
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        name: inputValue
+      }))
+    }
+  }
+
   return (
     <div className={styles.container}>
-      <button onClick={completedAll} className={styles.form_btn}>
-        ✔️
-      </button>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          type='text'
-          placeholder='Enter task ....'
-          value={editingPost ? editingPost.name : formData.name}
-          onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value }))}
-        />
-        {/* <button hidden type='submit'>
-          {currentTodo ? '✔️' : '➕'}
-        </button> */}
+        <label className={styles.taskCheckboxWrap}>
+          <input type='checkbox' onClick={completedAll} />
+          <span className={styles.taskCheckboxMark}></span>
+        </label>
+        <input type='text' placeholder='Add task in here ....' value={formData.name} onChange={handleInputChange} />
       </form>
     </div>
   )

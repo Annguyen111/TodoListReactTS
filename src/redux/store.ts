@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import listReducer from './components/list.reducer'
+import listReducer from './list.reducer'
 
 export const store = configureStore({
   reducer: { list: listReducer }
