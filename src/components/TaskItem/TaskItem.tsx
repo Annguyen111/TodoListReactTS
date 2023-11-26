@@ -31,10 +31,11 @@ export default function TaskItem(props: TaskItemProps) {
 
   const onChangeFocus = () => {
     setIsEditing(true)
-    if (inputRef.current) {
-      inputRef.current.disabled = false
-      inputRef.current.focus()
-    }
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
+    }, 0)
   }
 
   const handleUpdate = (id: string, value: string) => {
@@ -51,35 +52,34 @@ export default function TaskItem(props: TaskItemProps) {
   const onBlur = (id: string) => {
     if (inputRef.current) {
       handleUpdate(id, inputRef.current.value)
-      inputRef.current.disabled = true
       setIsEditing(false)
     }
   }
 
   return (
-    <div className={`${!isEditing ? styles.taskItem : styles.taskItemEditing} `}>
+    <div className={`${styles.taskItem}`}>
       {!isEditing && (
         <label className={styles.taskCheckboxWrap}>
           <input type='checkbox' checked={todo.done} onChange={onChangeCheckbox(todo.id)} />
           <span className={styles.taskCheckboxMark}></span>
         </label>
       )}
-      {isEditing ? (
-        <input
-          className={`${styles.taskName} ${styles.taskNameEditing}`}
-          type='text'
-          ref={inputRef}
-          value={editedContent}
-          onChange={(e) => setEditedContent(e.target.value)}
-          onKeyUp={(e) => onUpdate(todo.id, e)}
-          onBlur={() => onBlur(todo.id)}
-          disabled={!isEditing}
-        />
-      ) : (
-        <div className={`${styles.taskName} ${todo.done ? styles.taskNameDone : ''}`} onClick={onChangeFocus}>
-          {todo.name}
-        </div>
-      )}
+      <input
+        className={`${styles.taskNameInput} ${isEditing ? styles.taskNameEditing : ''} `}
+        type='text'
+        ref={inputRef}
+        value={editedContent}
+        onChange={(e) => setEditedContent(e.target.value)}
+        onKeyUp={(e) => onUpdate(todo.id, e)}
+        onBlur={() => onBlur(todo.id)}
+        disabled={false}
+      />
+      <div
+        className={`${styles.taskName} ${isEditing ? styles.active : ''} ${todo.done ? styles.taskNameDone : ''} `}
+        onDoubleClick={onChangeFocus}
+      >
+        {todo.name}
+      </div>
       {!isEditing && (
         <div className={styles.taskActions}>
           <button className={styles.taskBtn} onClick={() => handleDelete(todo.id)}>

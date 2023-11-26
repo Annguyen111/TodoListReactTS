@@ -10,9 +10,21 @@
     color: #b2b7bb;
     text-decoration: line-through;
   }
+  &.active {
+    display: none;
+  }
+}
+
+.taskNameInput {
+  display: none;
+  max-width: 100%;
+  padding: 15px;
+  color: #383f50;
+  border: none;
 }
 
 .taskNameEditing {
+  display: block;
   outline-width: 1px;
   outline-style: inset;
   box-shadow: 5px 5px 8px rgba(192, 121, 121, 0.8);
@@ -42,6 +54,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 }
 
 .taskItemEditing {
